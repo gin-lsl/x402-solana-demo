@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { ConnectButton, Connector } from '@ant-design/web3';
+import {
+  OKXWallet,
+  PhantomWallet,
+  solanaDevnet,
+  SolanaWeb3ConfigProvider,
+} from '@ant-design/web3-solana';
 
-function App() {
-  const [count, setCount] = useState(0)
+const YOUR_ZAN_API_KEY = '96b981aa6d1d4f8aa889480f6fed193a';
 
+const rpcProvider = () =>
+  `https://api.zan.top/node/v1/solana/devnet/${YOUR_ZAN_API_KEY}`
+
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>X402 Solana Demo</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <SolanaWeb3ConfigProvider
+      autoAddRegisteredWallets
+      balance
+      rpcProvider={rpcProvider}
+      chains={[solanaDevnet]}
+      wallets={[PhantomWallet(), OKXWallet()]}
+    >
+      <Connector modalProps={{ mode: 'simple', group: false }}>
+        <ConnectButton quickConnect />
+      </Connector>
+    </SolanaWeb3ConfigProvider>
   )
 }
-
-export default App
