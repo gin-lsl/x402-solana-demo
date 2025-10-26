@@ -12,6 +12,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@ant-design/web3": "^1.25.1",
+    "@ant-design/web3-solana": "^1.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
