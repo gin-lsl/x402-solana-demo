@@ -4,6 +4,7 @@ import cors from '@koa/cors'
 import bodyParser from '@koa/bodyparser'
 import { config } from 'dotenv'
 import facilitatorRouter from './facilitator.js'
+import solanaRouter from './solana.js'
 import {
   createKeyPairSignerFromBytes,
   createKeyPairSignerFromPrivateKeyBytes,
@@ -72,6 +73,7 @@ router.post('/api/data', ctx => {
 })
 
 app.use(facilitatorRouter.routes()).use(facilitatorRouter.allowedMethods())
+app.use(solanaRouter.routes()).use(solanaRouter.allowedMethods())
 app.use(router.routes()).use(router.allowedMethods())
 
 // 404 handler
