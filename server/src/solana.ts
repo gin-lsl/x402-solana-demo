@@ -1,5 +1,6 @@
 import Router from '@koa/router'
 import { address, createSolanaRpc } from '@solana/kit'
+import { createX402Middleware } from './x402-middleware.js'
 
 const solanaRouter = new Router({ prefix: '/solana' })
 
@@ -9,7 +10,26 @@ const ZAN_SOLANA_RPC = `https://api.zan.top/node/v1/solana/devnet/96b981aa6d1d4f
 // 创建 RPC 客户端
 const rpc = createSolanaRpc(ZAN_SOLANA_RPC)
 
-solanaRouter.get('/get-balance', async ctx => {
+// 创建付费中间件 - 获取余额每次调用需要0.1美元
+const balanceMiddleware = createX402Middleware({
+  amount: 0.1,
+  description: 'Get Solana wallet balance',
+  resource: '/solana/get-balance',
+  mimeType: 'application/json',
+  settlePayment: true,
+})
+
+// 创建付费中间件 - 获取交易记录每次调用需要0.5美元
+const transactionsMiddleware = createX402Middleware({
+  amount: 0.5,
+  description: 'Get Solana wallet transactions',
+  resource: '/solana/get-transactions',
+  mimeType: 'application/json',
+  settlePayment: true,
+})
+
+solanaRouter.get('/get-balance', balanceMiddleware, async ctx => {
+  console.log('Call /get-balance');
   try {
     // 从查询参数获取钱包地址
     const walletAddress = ctx.query.address as string
@@ -53,7 +73,13 @@ solanaRouter.get('/get-balance', async ctx => {
           lamports: balanceInLamports.toString(),
           sol: balanceInSOL.toFixed(9)
         }
-      }
+      },
+      paymentInfo: ctx.state.paymentAmount ? {
+        amount: ctx.state.paymentAmount,
+        currency: 'SOL',
+        settled: ctx.state.paymentSettled || false,
+        settlementError: ctx.state.paymentSettlementError
+      } : null
     }
   } catch (error) {
     console.error('Error fetching balance:', error)
@@ -88,7 +114,7 @@ function serializeBigInt(obj: any): any {
   return obj
 }
 
-solanaRouter.get('/get-transactions', async ctx => {
+solanaRouter.get('/get-transactions', transactionsMiddleware, async ctx => {
   try {
     // 从查询参数获取钱包地址
     const walletAddress = ctx.query.address as string
@@ -159,7 +185,13 @@ solanaRouter.get('/get-transactions', async ctx => {
         address: walletAddress,
         transactions: serializeBigInt(transactions),
         count: transactions.length
-      }
+      },
+      paymentInfo: ctx.state.paymentAmount ? {
+        amount: ctx.state.paymentAmount,
+        currency: 'SOL',
+        settled: ctx.state.paymentSettled || false,
+        settlementError: ctx.state.paymentSettlementError
+      } : null
     }
   } catch (error) {
     console.error('Error fetching transactions:', error)

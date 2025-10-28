@@ -1,0 +1,10 @@
+@host = http://localhost:3022
+
+###
+POST /facilitator/verify HTTP/1.1
+Content-Type: application/json
+
+{
+  "paymentPayload": {},
+  "paymentRequirements": {}
+}

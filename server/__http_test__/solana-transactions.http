@@ -1,0 +1,11 @@
+@host = http://localhost:3022
+
+
+### 获取指定钱包地址的最近10条交易记录
+GET /solana/get-transactions?address=ACaaiwsnovTdRD6ZyBiGRhZ6jTKAb9Vi7AWavuPxxcoC
+
+### 测试无效地址
+GET /solana/get-transactions?address=invalid-address
+
+### 测试缺少地址参数
+GET /solana/get-transactions

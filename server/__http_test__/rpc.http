@@ -1,0 +1,15 @@
+
+###
+POST https://api.zan.top/node/v1/solana/devnet/96b981aa6d1d4f8aa889480f6fed193a HTTP/1.1
+Content-Type: application/json
+
+{"id":1,"jsonrpc":"2.0","method":"getSignaturesForAddress","params":["ACaaiwsnovTdRD6ZyBiGRhZ6jTKAb9Vi7AWavuPxxcoC",{"limit":10,"commitment":"finalized"}]}
+
+###
+
+POST https://devnet.helius-rpc.com/?api-key=18860455-8f2a-488b-97f0-9657a15a609d HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Content-Length: 155
+
+{"id":1,"jsonrpc":"2.0","method":"getSignaturesForAddress","params":["ACaaiwsnovTdRD6ZyBiGRhZ6jTKAb9Vi7AWavuPxxcoC",{"limit":10,"commitment":"finalized"}]}

@@ -1,0 +1,14 @@
+### 测试 X402 付费中间件 - 获取余额 (需要 0.1 美元)
+GET http://localhost:3022/solana/get-balance?address=7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR
+
+### 测试 X402 付费中间件 - 获取交易记录 (需要 0.5 美元)
+GET http://localhost:3022/solana/get-transactions?address=7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR
+Content-Type: application/json
+
+### 测试 X402 付费中间件 - 无效的地址格式
+GET http://localhost:3022/solana/get-balance?address=invalid-address
+Content-Type: application/json
+
+### 测试 X402 付费中间件 - 缺少地址参数
+GET http://localhost:3022/solana/get-balance
+Content-Type: application/json

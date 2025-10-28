@@ -1,0 +1,78 @@
+### 完整的 X402 付费流程演示
+
+### 步骤 1: 首次请求 - 获取支付要求
+GET http://localhost:3022/solana/get-balance?address=7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR
+Content-Type: application/json
+
+### 步骤 2: 首次请求 - 获取交易记录的支付要求
+GET http://localhost:3022/solana/get-transactions?address=7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR
+Content-Type: application/json
+
+### 步骤 3: 检查支持的支付方式
+GET http://localhost:3022/facilitator/supported
+
+### 步骤 4: 验证支付（需要实际的支付负载）
+POST http://localhost:3022/facilitator/verify
+Content-Type: application/json
+
+{
+  "paymentPayload": {
+    "payment": {
+      "network": "solana-devnet",
+      "asset": "solana:101:SOL",
+      "amount": "0.1",
+      "payTo": "7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR",
+      "payFrom": "GfYcQp6xE3h5x4x9x8x7x6x5x4x3x2x1x",
+      "signature": "5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x"
+    }
+  },
+  "paymentRequirements": {
+    "network": "solana-devnet",
+    "scheme": "exact",
+    "description": "Get Solana wallet balance",
+    "resource": "/solana/get-balance",
+    "mimeType": "application/json",
+    "maxAmountRequired": "0.1",
+    "payTo": "7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR",
+    "maxTimeoutSeconds": 60,
+    "asset": "solana:101:SOL"
+  }
+}
+
+### 步骤 5: 结算支付（需要实际的支付负载）
+POST http://localhost:3022/facilitator/settle
+Content-Type: application/json
+
+{
+  "paymentPayload": {
+    "payment": {
+      "network": "solana-devnet",
+      "asset": "solana:101:SOL",
+      "amount": "0.1",
+      "payTo": "7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR",
+      "payFrom": "GfYcQp6xE3h5x4x9x8x7x6x5x4x3x2x1x",
+      "signature": "5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x"
+    }
+  },
+  "paymentRequirements": {
+    "network": "solana-devnet",
+    "scheme": "exact",
+    "description": "Get Solana wallet balance",
+    "resource": "/solana/get-balance",
+    "mimeType": "application/json",
+    "maxAmountRequired": "0.1",
+    "payTo": "7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR",
+    "maxTimeoutSeconds": 60,
+    "asset": "solana:101:SOL"
+  }
+}
+
+### 步骤 6: 使用支付头访问受保护资源（需要实际的支付负载）
+GET http://localhost:3022/solana/get-balance?address=7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR
+Content-Type: application/json
+X402-Payment: {"payment":{"network":"solana-devnet","asset":"solana:101:SOL","amount":"0.1","payTo":"7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR","payFrom":"GfYcQp6xE3h5x4x9x8x7x6x5x4x3x2x1x","signature":"5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x"}}
+
+### 步骤 7: 使用支付头访问交易记录（需要实际的支付负载）
+GET http://localhost:3022/solana/get-transactions?address=7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR
+Content-Type: application/json
+X402-Payment: {"payment":{"network":"solana-devnet","asset":"solana:101:SOL","amount":"0.5","payTo":"7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR","payFrom":"GfYcQp6xE3h5x4x9x8x7x6x5x4x3x2x1x","signature":"5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x9x8x7x6x5x4x3x2x1x"}}

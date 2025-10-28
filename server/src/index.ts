@@ -1,6 +1,7 @@
 import Koa from 'koa'
 import Router from '@koa/router'
 import cors from '@koa/cors'
+import logger from 'koa-logger'
 import bodyParser from '@koa/bodyparser'
 import { config } from 'dotenv'
 import facilitatorRouter from './facilitator.js'
@@ -17,11 +18,7 @@ const app = new Koa()
 const router = new Router()
 
 // Middleware
-app.use(async (ctx, next) => {
-  console.log(`${new Date().toISOString()} - ${ctx.method} ${ctx.url}`)
-  await next()
-})
-
+app.use(logger())
 app.use(cors())
 app.use(bodyParser())
 
@@ -72,8 +69,8 @@ router.post('/api/data', ctx => {
   ctx.body = { success: true, received: data }
 })
 
-app.use(facilitatorRouter.routes()).use(facilitatorRouter.allowedMethods())
 app.use(solanaRouter.routes()).use(solanaRouter.allowedMethods())
+app.use(facilitatorRouter.routes()).use(facilitatorRouter.allowedMethods())
 app.use(router.routes()).use(router.allowedMethods())
 
 // 404 handler

@@ -90,6 +90,7 @@ facilitatorRouter.get('/supported', async ctx => {
 })
 
 facilitatorRouter.get('/verify', ctx => {
+  console.log('assert /verify');
   ctx.body = {
     endpoint: ctx.path,
     description: 'POST to verify x402 payments',
@@ -101,6 +102,7 @@ facilitatorRouter.get('/verify', ctx => {
 })
 
 facilitatorRouter.get('/settle', ctx => {
+  console.log('assert /settle');
   ctx.body = {
     endpoint: ctx.path,
     description: 'POST to settle x402 payments',

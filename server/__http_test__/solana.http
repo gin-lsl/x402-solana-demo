@@ -1,0 +1,4 @@
+@host = http://localhost:3022
+
+###
+GET /solana/get-balance?address=ACaaiwsnovTdRD6ZyBiGRhZ6jTKAb9Vi7AWavuPxxcoC HTTP/1.1
