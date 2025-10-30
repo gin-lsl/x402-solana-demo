@@ -1,39 +1,36 @@
-import {
-  createSigner,
-  decodeXPaymentResponse,
-  wrapFetchWithPayment,
-} from 'x402-fetch'
+import { createSigner, decodeXPaymentResponse, wrapFetchWithPayment } from 'x402-fetch'
+import { config } from 'dotenv'
+
+config()
 
 async function main() {
-  const signer = await createSigner(
-    'solana-devnet',
-    '39f3FmcVtkaLJUbr18zxxn8yFb8GzTyWUs2N7Fss4sGBCxURHZ8v2UKqC6iyH14WfaNLVWyeCMX1U4zkAWGxAg2c'
-  )
-  const fetchWithPayment = wrapFetchWithPayment(
-    fetch,
-    signer,
-    undefined,
-    undefined,
-    {
-      svmConfig: {
-        rpcUrl:
-          'https://api.zan.top/node/v1/solana/devnet/96b981aa6d1d4f8aa889480f6fed193a',
-      },
-    }
-  )
+  const privateKey = process.env.CLIENT_PRIVATE_KEY!
+  const signer = await createSigner('solana-devnet', privateKey)
+  const fetchWithPayment = wrapFetchWithPayment(fetch, signer, BigInt(3000 * 100000), undefined, {
+    svmConfig: {
+      rpcUrl: process.env.SOLANA_RPC,
+    },
+  })
   const response = await fetchWithPayment(
-    'http://localhost:3022/solana/get-balance?address=7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR',
+    // 'http://localhost:3022/solana/get-balance?address=7a4tEdJBUIV2pXDxTg8eDZ1r4xbaVyyghEHKcG3c4YmeR',
+    'http://localhost:3022/solana/get-balance?address=8dQE449ozUAS2XPyvao6hEpkAtGALo1A1q4TApayFfCo',
     { method: 'GET' }
   )
   console.log('xxx')
   const body = await response.json()
 
-  console.log('body:', body)
+  console.log('headers:', response.headers)
+  console.log('body:', JSON.stringify(body, null, 2))
 
-  const paymentResponse = decodeXPaymentResponse(
-    response.headers.get('x-payment-response')!
-  )
-  console.log('paymentResponse:', paymentResponse)
+  const xpr = response.headers.get('x-payment-response')
+  if (xpr) {
+    const paymentResponse = decodeXPaymentResponse(xpr)
+    console.log('paymentResponse:', paymentResponse)
+  } else {
+    console.log('no x-payment-response header, status:', response.status)
+    const reqHeader = response.headers.get('x402-payment-required')
+    if (reqHeader) console.log('payment-required:', reqHeader)
+  }
 }
 
 main().catch(error => {
