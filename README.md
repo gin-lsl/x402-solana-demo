@@ -1,90 +1,31 @@
 # X402 Solana Demo
 
-A monorepo project demonstrating web and server integration with TypeScript.
+基于 Solana 区块链的支付演示项目
 
-## Project Structure
+## 项目结构
 
-This is a pnpm workspace monorepo containing two main packages:
+- **server**: Koa.js + TypeScript 后端服务，集成 Solana 支付功能
 
-- **web**: React application with Vite and TypeScript
-- **server**: Koa.js server application with TypeScript
+## 快速开始
 
-## Prerequisites
+```bash
+# 安装依赖
+pnpm install
+
+# 启动开发环境
+pnpm dev
+
+## 主要功能
+
+- X402 支付协议集成
+- 区块链交易处理
+- 支付验证和中继服务
+
+## 端口配置
+
+- 服务器: http://localhost:3001
+
+## 环境要求
 
 - Node.js >= 18.0.0
 - pnpm >= 8.0.0
-
-## Installation
-
-```bash
-# Install dependencies for all packages
-pnpm install
-```
-
-## Development
-
-```bash
-# Start both web and server in development mode
-pnpm dev
-
-# Start only the web application
-pnpm --filter web dev
-
-# Start only the server
-pnpm --filter server dev
-```
-
-## Build
-
-```bash
-# Build all packages
-pnpm build
-
-# Build specific package
-pnpm --filter web build
-pnpm --filter server build
-```
-
-## Available Scripts
-
-- `pnpm dev` - Start development servers for all packages
-- `pnpm build` - Build all packages
-- `pnpm clean` - Clean build artifacts
-- `pnpm lint` - Run linting
-- `pnpm type-check` - Run TypeScript type checking
-
-## Web Application
-
-The web application is built with:
-- React 18
-- Vite
-- TypeScript
-- Modern CSS
-
-Access the web app at: http://localhost:3000
-
-## Server Application
-
-The server application is built with:
-- Koa.js
-- TypeScript
-- CORS support
-- Body parsing
-- Request logging
-
-API endpoints:
-- Health check: http://localhost:3001/health
-- Hello API: http://localhost:3001/api/hello
-- Data API: http://localhost:3001/api/data (POST)
-
-## Technologies Used
-
-- **Frontend**: React, Vite, TypeScript
-- **Backend**: Koa.js, TypeScript
-- **Package Manager**: pnpm
-- **Build Tool**: Vite (web), tsc (server)
-- **Code Quality**: ESLint, Prettier, TypeScript
-
-## License
-
-MIT
