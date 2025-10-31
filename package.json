@@ -4,7 +4,6 @@
   "description": "A monorepo project with web and server packages",
   "private": true,
   "workspaces": [
-    "web",
     "server"
   ],
   "scripts": {
