@@ -8,8 +8,7 @@
   ],
   "scripts": {
     "dev": "pnpm run --parallel dev",
-    "build": "pnpm run --recursive build",
-    "clean": "pnpm run --recursive clean",
+    "client": "pnpm run --parallel client",
     "lint": "pnpm run --recursive lint",
     "type-check": "pnpm run --recursive type-check"
   },

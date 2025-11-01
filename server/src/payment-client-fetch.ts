@@ -16,7 +16,6 @@ async function main() {
     'http://localhost:3022/solana/get-balance?address=8dQE449ozUAS2XPyvao6hEpkAtGALo1A1q4TApayFfCo',
     { method: 'GET' }
   )
-  console.log('xxx')
   const body = await response.json()
 
   console.log('headers:', response.headers)

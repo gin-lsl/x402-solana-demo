@@ -10,8 +10,11 @@ X402 Protocol Payment Demo Project Based on Solana Blockchain
 # Install dependencies
 pnpm install
 
-# Start development environment
+# Start server
 pnpm dev
+
+# Run client test
+pnpm client
 ```
 
 ## Port Configuration
